@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -35,10 +36,16 @@ namespace EnrollmentService
 
 
             services.AddScoped<IStudent, StudentRepo>();
+            services.AddScoped<ICourse, CourseRepo>();
+            services.AddScoped<IEnrollment, EnrollmentRepo>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddControllers();
+
+            services.AddControllers().AddNewtonsoftJson(options => 
+            options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .AddXmlDataContractSerializerFormatters();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EnrollmentService", Version = "v1" });

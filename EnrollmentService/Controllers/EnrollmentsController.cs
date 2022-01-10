@@ -2,88 +2,88 @@
 using EnrollmentService.Data;
 using EnrollmentService.Data.DTO;
 using EnrollmentService.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 namespace EnrollmentService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoursesController : ControllerBase
+    public class EnrollmentsController : ControllerBase
     {
-        private ICourse _course;
+        private IEnrollment _enroll;
         private IMapper _mapper;
 
-        public CoursesController(ICourse course, IMapper mapper)
+        public EnrollmentsController(IEnrollment enrollment, IMapper mapper)
         {
-            _course = course;
+            _enroll = enrollment;
             _mapper = mapper;
         }
-        // GET: CoursesController
+        // GET: api/<EnrollmentsController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CourseView>>> Index()
+        public async Task<ActionResult<IEnumerable<Enrollment>>> Get()
         {
-            var results = await _course.GetAll();
-            var data = _mapper.Map<IEnumerable<CourseView>>(results);
-            return Ok(data);
+            var results = await _enroll.GetAll();
+            return Ok(results);
         }
 
-        // GET: CoursesController/Details/5
+        // GET api/<EnrollmentsController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CourseView>> Details(int id)
+        public async Task<ActionResult<Enrollment>> Get(int id)
         {
-            var result = await _course.GetById(id);
+            var result = await _enroll.GetById(id);
             if (result == null)
             {
                 return NotFound();
             }
 
-            var data = _mapper.Map<CourseView>(result);
-            return Ok(data);
+            return Ok(result);
         }
 
-        // GET: CoursesController/Create
+        // POST api/<EnrollmentsController>
         [HttpPost]
-        public async Task<ActionResult<CourseView>> Create([FromBody] CreateCourseDto entity)
+        public async Task<ActionResult<Enrollment>> Post([FromBody] CreateEnrollDto entity)
         {
             try
             {
-                var dto = _mapper.Map<Course>(entity);
-                var result = await _course.Insert(dto);
-                var data = _mapper.Map<CourseView>(result);
-                return Ok(data);
+                var dto = _mapper.Map<Enrollment>(entity);
+                var result = await _enroll.Insert(dto);
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 return BadRequest(new { Message = ex.Message });
             }
         }
+
+        // PUT api/<EnrollmentsController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<CourseView>> Update(int id, [FromBody] CreateCourseDto entity)
+        public async Task<ActionResult<Enrollment>> Put(int id, [FromBody] CreateEnrollDto entity)
         {
             try
             {
-                var dto = _mapper.Map<Course>(entity);
-                var result = await _course.Update(id, dto);
-                var data = _mapper.Map<CourseView>(result);
-                return Ok(data);
+                var dto = _mapper.Map<Enrollment>(entity);
+                var result = await _enroll.Update(id, dto);
+                return Ok(result);
 
             }
             catch (Exception ex)
             {
-
                 return BadRequest(new { Message = ex.Message });
             }
         }
+
+        // DELETE api/<EnrollmentsController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<string>> Delete(int id)
         {
             try
             {
-                await _course.Delete(id);
+                await _enroll.Delete(id);
                 return Ok(new
                 {
                     Message = "Berhasil menghapus data"

@@ -8,52 +8,56 @@ using System.Threading.Tasks;
 
 namespace EnrollmentService.Data
 {
-    public class StudentRepo : IStudent
+    public class EnrollmentRepo : IEnrollment
     {
         private AppDbContext _db;
 
-        public StudentRepo(AppDbContext db)
+        public EnrollmentRepo(AppDbContext db)
         {
             _db = db;
         }
+
         public async Task Delete(int id)
         {
             try
             {
-                var data = await _db.Students.Where(e => e.Id == id).FirstOrDefaultAsync();
+                var data = await _db.Enrollments.Where(e => e.Id == id).FirstOrDefaultAsync();
                 if (data != null)
                 {
-                    _db.Students.Remove(data);
+                    _db.Enrollments.Remove(data);
                     await _db.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
             {
+
                 throw new Exception(ex.Message);
             }
         }
 
-        public async Task<IEnumerable<Student>> GetAll()
+        public async Task<IEnumerable<Enrollment>> GetAll()
         {
-            var students = await _db.Students.OrderBy(e => e.FullName).ToListAsync();
-            return students;
+            var enrollments = await _db.Enrollments.Include(e => e.Student)
+                .Include(e => e.Course).AsNoTracking().ToListAsync();
+
+            return enrollments;
         }
 
-        public async Task<Student> GetById(int id)
+        public async Task<Enrollment> GetById(int id)
         {
-            var student = await _db.Students.Where(e => e.Id == id).FirstOrDefaultAsync();
-            if (student == null)
+            var enroll = await _db.Enrollments.Where(e => e.Id == id).FirstOrDefaultAsync();
+            if (enroll == null)
             {
                 throw new Exception($" Data denga id : {id} tidak ditemukan");
             }
-            return student;
+            return enroll;
         }
 
-        public async Task<Student> Insert(Student entity)
+        public async Task<Enrollment> Insert(Enrollment entity)
         {
             try
             {
-                 _db.Students.Add(entity);
+                _db.Enrollments.Add(entity);
                 await _db.SaveChangesAsync();
                 return entity;
             }
@@ -64,16 +68,16 @@ namespace EnrollmentService.Data
             }
         }
 
-        public async Task<Student> Update(int id, Student entity)
+        public async Task<Enrollment> Update(int id, Enrollment entity)
         {
             try
             {
-                var data = await _db.Students.Where(e => e.Id == id).FirstOrDefaultAsync();
+                var data = await _db.Enrollments.Where(e => e.Id == id).FirstOrDefaultAsync();
                 if (data != null)
                 {
-                    data.FullName = entity.FullName;
-                    data.EnrollmentDate = entity.EnrollmentDate;
-                    _db.Students.Update(data);
+                    data.StudentId = entity.StudentId;
+                    data.CourseId = entity.CourseId;
+                    _db.Enrollments.Update(data);
                 }
                 await _db.SaveChangesAsync();
                 return data;
