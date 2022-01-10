@@ -33,7 +33,10 @@ namespace EnrollmentService
             services.AddDbContext<AppDbContext>(opt => opt
             .UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
 
+
             services.AddScoped<IStudent, StudentRepo>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

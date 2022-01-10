@@ -16,7 +16,7 @@ namespace EnrollmentService.Data
         {
             _db = db;
         }
-        public async Task DeleteById(int id)
+        public async Task Delete(int id)
         {
             try
             {

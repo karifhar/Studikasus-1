@@ -4,6 +4,8 @@ using EnrollmentService.Data.DTO;
 using EnrollmentService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EnrollmentService.Controllers
@@ -22,10 +24,10 @@ namespace EnrollmentService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<StudentView>> GetAll()
+        public async Task<ActionResult<IEnumerable<StudentView>>> GetAll()
         {
             var results = await _student.GetAll();
-            var data = _mapper.Map<StudentView>(results);
+            var data = _mapper.Map<IEnumerable<StudentView>>(results);
             return Ok(data);
         }
         [HttpGet("{id}")]
@@ -50,11 +52,43 @@ namespace EnrollmentService.Controllers
                 var data = _mapper.Map<StudentView> (result);
                 return Ok(data);
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
-        public async Task<ActionResult>
+        [HttpPut("{id}")]
+        public async Task<ActionResult<StudentView>> Update(int id, [FromBody]CreateStudentDto entity)
+        {
+            try
+            {
+                var dto = _mapper.Map<Student>(entity);
+                var result = await _student.Update(id, dto);
+                var data = _mapper.Map<StudentView>(result);
+                return Ok(data);
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete]
+        public async Task<ActionResult<string>> Delete(int id)
+        {
+            try
+            {
+                await _student.Delete(id);
+                return Ok(new
+                {
+                    Message = "Berhasil menghapus data"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

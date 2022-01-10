@@ -9,7 +9,7 @@ namespace EnrollmentService.Data
        Task<T> GetById(int id);
        Task<T> Insert(T entity);
        Task<T> Update(int id, T entity);
-       Task DeleteById(int id);
+       Task Delete(int id);
 
     }
 }
