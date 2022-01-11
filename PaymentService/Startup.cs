@@ -1,5 +1,3 @@
-using EnrollmentService.Data;
-using EnrollmentService.Data.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,15 +7,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.OpenApi.Models;
+using PaymentService.Data;
+using PaymentService.Data.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
-namespace EnrollmentService
+namespace PaymentService
 {
     public class Startup
     {
@@ -32,24 +30,19 @@ namespace EnrollmentService
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<AppDbContext>(opt => opt
-            .UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
-
-
-            services.AddScoped<IStudent, StudentRepo>();
-            services.AddScoped<ICourse, CourseRepo>();
-            services.AddScoped<IEnrollment, EnrollmentRepo>();
+            services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("LocalConn")));
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddScoped<IPayment, PaymentRepo>();
 
-            services.AddControllers().AddNewtonsoftJson(options => 
-            options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-                .AddXmlDataContractSerializerFormatters();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+               .AddXmlDataContractSerializerFormatters();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EnrollmentService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentService", Version = "v1" });
             });
         }
 
@@ -60,7 +53,7 @@ namespace EnrollmentService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EnrollmentService v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PaymentService v1"));
             }
 
             app.UseHttpsRedirection();
