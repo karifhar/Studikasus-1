@@ -2,6 +2,7 @@
 using EnrollmentService.Data;
 using EnrollmentService.Data.DTO;
 using EnrollmentService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ namespace EnrollmentService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CoursesController : ControllerBase
     {
         private ICourse _course;
@@ -47,6 +49,7 @@ namespace EnrollmentService.Controllers
 
         // GET: CoursesController/Create
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<CourseView>> Create([FromBody] CreateCourseDto entity)
         {
             try
@@ -62,6 +65,7 @@ namespace EnrollmentService.Controllers
             }
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<CourseView>> Update(int id, [FromBody] CreateCourseDto entity)
         {
             try
@@ -79,6 +83,7 @@ namespace EnrollmentService.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> Delete(int id)
         {
             try
