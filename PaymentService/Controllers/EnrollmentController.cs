@@ -46,9 +46,11 @@ namespace PaymentService.Controllers
 
         // POST api/<EnrollmentController>
         [HttpPost]
-        public async Task<ActionResult<Payment>> Post([FromBody] CreatePaymentDto entity)
+        public ActionResult Post([FromBody] CreatePaymentDto entity)
         {
-            try
+            Console.WriteLine("----Inbound-------");
+            return Ok("test inbound");
+            /*try
             {
                 var dto = _mapper.Map<Payment>(entity);
                 var result = await _payment.Insert(dto);
@@ -57,7 +59,7 @@ namespace PaymentService.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { Message = ex.Message });
-            }
+            }*/
         }
 
         // PUT api/<EnrollmentController>/5
