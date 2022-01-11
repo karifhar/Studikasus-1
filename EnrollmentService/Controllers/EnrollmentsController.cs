@@ -2,6 +2,7 @@
 using EnrollmentService.Data;
 using EnrollmentService.Data.DTO;
 using EnrollmentService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace EnrollmentService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EnrollmentsController : ControllerBase
     {
         private IEnrollment _enroll;
@@ -79,6 +81,7 @@ namespace EnrollmentService.Controllers
 
         // DELETE api/<EnrollmentsController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> Delete(int id)
         {
             try
