@@ -4,6 +4,7 @@ using EnrollmentService.Data.DTO;
 using EnrollmentService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PlatformService.SyncDataServices.Http;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,11 +20,13 @@ namespace EnrollmentService.Controllers
     {
         private IEnrollment _enroll;
         private IMapper _mapper;
+        private IPaymentDataClient _paymentDataClient;
 
-        public EnrollmentsController(IEnrollment enrollment, IMapper mapper)
+        public EnrollmentsController(IEnrollment enrollment, IMapper mapper, IPaymentDataClient paymentDataClient)
         {
             _enroll = enrollment;
             _mapper = mapper;
+            _paymentDataClient = paymentDataClient;
         }
         // GET: api/<EnrollmentsController>
         [HttpGet]
@@ -54,6 +57,7 @@ namespace EnrollmentService.Controllers
             {
                 var dto = _mapper.Map<Enrollment>(entity);
                 var result = await _enroll.Insert(dto);
+                await _paymentDataClient.SendPlatformToCommand(entity);
                 return Ok(result);
             }
             catch (Exception ex)

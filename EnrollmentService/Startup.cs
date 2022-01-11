@@ -20,6 +20,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using EnrollmentService.Helpers;
+using PlatformService.SyncDataServices.Http;
+using EnrollmentService.SyncronousDataService.Http;
 
 namespace EnrollmentService
 {
@@ -78,6 +80,7 @@ namespace EnrollmentService
             services.AddScoped<ICourse, CourseRepo>();
             services.AddScoped<IEnrollment, EnrollmentRepo>();
             services.AddScoped<IUser, UserRepo>();
+            services.AddScoped<IPaymentDataClient, HttpPaymentDataClient>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
