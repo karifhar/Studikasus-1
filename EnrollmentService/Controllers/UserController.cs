@@ -21,7 +21,7 @@ namespace EnrollmentService.Controllers
             _user = user;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<ActionResult> Registration(CreateUserDto user)
         {
