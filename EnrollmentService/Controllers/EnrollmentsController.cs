@@ -85,7 +85,7 @@ namespace EnrollmentService.Controllers
 
         // DELETE api/<EnrollmentsController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<string>> Delete(int id)
         {
             try

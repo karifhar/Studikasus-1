@@ -46,7 +46,7 @@ namespace PaymentService.Controllers
 
         // POST api/<EnrollmentController>
         [HttpPost]
-        public ActionResult Post([FromBody] CreatePaymentDto entity)
+        public ActionResult<string> Post()
         {
             Console.WriteLine("----Inbound-------");
             return Ok("test inbound");

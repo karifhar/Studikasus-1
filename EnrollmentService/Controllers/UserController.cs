@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EnrollmentService.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -65,6 +65,7 @@ namespace EnrollmentService.Controllers
             }
         }
         [HttpGet("Role/{username}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<string>>> GetRolesByUser(string username)
         {
             var results = await _user.GetRoleFromUser(username);
