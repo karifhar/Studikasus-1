@@ -16,10 +16,10 @@ namespace EnrollmentService
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            CreateDbInitializer(host);
+            //CreateDbInitializer(host);
             host.Run();
         }
-        private static void CreateDbInitializer(IHost host)
+        /*private static void CreateDbInitializer(IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -36,7 +36,7 @@ namespace EnrollmentService
                     logger.LogError(ex, "Terjadi error pada inisiasi konteks database");
                 }
             }
-        }
+        } */
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

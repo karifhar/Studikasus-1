@@ -1,4 +1,7 @@
 ﻿using EnrollmentService.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
@@ -6,9 +9,23 @@ namespace EnrollmentService.Data.Database
 {
     public static class DbInitializer
     {
-        public static void Initializer(AppDbContext context)
+        public static void PrepPopulation(IApplicationBuilder app,bool isProd){
+            using(var serviceScope = app.ApplicationServices.CreateScope()){
+                Initializer(serviceScope.ServiceProvider.GetService<AppDbContext>(),isProd);
+            }
+        }
+        public static void Initializer(AppDbContext context, bool isProd)
         {
-            context.Database.EnsureCreated();
+            if(isProd){
+                Console.WriteLine("--> Menjalankan Migrasi");
+                try{
+                    context.Database.Migrate();
+                }catch(Exception ex){
+                    Console.WriteLine($"--> Gagal melakukan migrasi {ex.Message}");
+                }
+            }
+
+            //context.Database.EnsureCreated();
 
             if (context.Students.Any())
             {
