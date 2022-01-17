@@ -35,13 +35,13 @@ namespace PaymentService.Data
             }
         }
 
-        public async Task<IEnumerable<Payment>> GetAll()
+        public async Task<IEnumerable<Enrollment>> GetAll()
         {
             var payments = await _db.Payments.OrderBy(e => e.Id).ToListAsync();
             return payments;
         }
 
-        public async Task<Payment> GetById(int id)
+        public async Task<Enrollment> GetById(int id)
         {
             var payment = await _db.Payments.Where(e => e.Id == id).FirstOrDefaultAsync();
             if (payment == null)
@@ -51,7 +51,7 @@ namespace PaymentService.Data
             return payment;
         }
 
-        public async Task<Payment> Insert(Payment entity)
+        public async Task<Enrollment> Insert(Enrollment entity)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace PaymentService.Data
             }
         }
 
-        public async Task<Payment> Update(int id, Payment entity)
+        public async Task<Enrollment> Update(int id, Enrollment entity)
         {
             try
             {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EnrollmentService.Data.DTO;
 using PaymentService.Data.Dtos;
 using PaymentService.Models;
 
@@ -8,7 +9,7 @@ namespace PaymentService.Profiles
     {
         public PaymentProfiiles()
         {
-            CreateMap<CreatePaymentDto, Payment>();
+            CreateMap<EnrollReadDto, Enrollment>();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace PaymentService.Data.Database
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
-        public  DbSet<Payment> Payments { get; set; }
+        public  DbSet<Enrollment> Payments { get; set; }
     }
 }

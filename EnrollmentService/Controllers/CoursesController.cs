@@ -49,7 +49,7 @@ namespace EnrollmentService.Controllers
 
         // GET: CoursesController/Create
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CourseView>> Create([FromBody] CreateCourseDto entity)
         {
             try
@@ -65,7 +65,7 @@ namespace EnrollmentService.Controllers
             }
         }
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CourseView>> Update(int id, [FromBody] CreateCourseDto entity)
         {
             try
@@ -83,7 +83,7 @@ namespace EnrollmentService.Controllers
             }
         }
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<string>> Delete(int id)
         {
             try

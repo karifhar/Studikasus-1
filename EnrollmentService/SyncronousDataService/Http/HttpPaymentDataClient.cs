@@ -1,4 +1,5 @@
 ﻿using EnrollmentService.Data.DTO;
+using EnrollmentService.Models;
 using Microsoft.Extensions.Configuration;
 using PlatformService.SyncDataServices.Http;
 using System;

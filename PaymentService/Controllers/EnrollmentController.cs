@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EnrollmentService.Data.DTO;
 using Microsoft.AspNetCore.Mvc;
 using PaymentService.Data;
 using PaymentService.Data.Dtos;
@@ -25,7 +26,7 @@ namespace PaymentService.Controllers
         }
         // GET: api/<EnrollmentController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Payment>>> Get()
+        public async Task<ActionResult<IEnumerable<Enrollment>>> Get()
         {
             var results = await _payment.GetAll();
             return Ok(results);
@@ -33,7 +34,7 @@ namespace PaymentService.Controllers
 
         // GET api/<EnrollmentController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Payment>> Get(int id)
+        public async Task<ActionResult<Enrollment>> Get(int id)
         {
             var result = await _payment.GetById(id);
             if (result == null)
@@ -46,36 +47,38 @@ namespace PaymentService.Controllers
 
         // POST api/<EnrollmentController>
         [HttpPost]
-        public ActionResult<string> Post()
+        public async Task<ActionResult<Enrollment>> Post(EnrollReadDto input)
         {
             Console.WriteLine("----Inbound-------");
-            return Ok("test inbound");
-            /*try
+            Console.WriteLine($"{input.Id}");
+            //return Ok("test inbound");
+          try
             {
-                var dto = _mapper.Map<Payment>(entity);
+                var dto = _mapper.Map<Enrollment>(input);
                 var result = await _payment.Insert(dto);
+                Console.WriteLine("----SUCCESS-----");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Message = ex.Message });
-            }*/
+                return BadRequest(new { ex.Message });
+            }
         }
 
         // PUT api/<EnrollmentController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Payment>> Put(int id, [FromBody] CreatePaymentDto entity)
+        public async Task<ActionResult<Enrollment>> Put(int id, [FromBody] CreatePaymentDto entity)
         {
             try
             {
-                var dto = _mapper.Map<Payment>(entity);
+                var dto = _mapper.Map<Enrollment>(entity);
                 var result = await _payment.Update(id, dto);
                 return Ok(result);
 
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Message = ex.Message });
+                return BadRequest(new { ex.Message });
             }
         }
 

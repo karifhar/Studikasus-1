@@ -2,7 +2,7 @@
 
 namespace PaymentService.Data
 {
-    public interface IPayment : ICrud<Payment>
+    public interface IPayment : ICrud<Enrollment>
     {
     }
 }

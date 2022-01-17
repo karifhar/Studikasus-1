@@ -2,18 +2,13 @@
 
 namespace PaymentService.Models
 {
-    public class Payment
+    public class Enrollment
     {
         [Key]
-        [Required]
         public int Id { get; set; }
-        [Required]
-        public int EnrollmentId { get; set; }
-        [Required]
         public int StudentId { get; set; }
-        [Required]
         public int CourseId { get; set; }
-        [Required]
-        public float TotalPrice { get; set; }
+        public float? TotalPrice { get; set; }
+
     }
 }
